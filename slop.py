@@ -42,6 +42,13 @@ def emoji_bullets(text):
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     return sum(1 for l in lines if not l[0].isascii())
 
+def whole_uppercase(text):
+    """Fraction of words that are all-caps (shouting)."""
+    words = [w for w in text.split() if w.isalpha()]
+    upper = sum(1 for w in words if w.isupper())
+    return upper / len(words) if words else 0
+
+
 def score_signals(signals):
     """Turn the precomputed signal map into a weighted score and an offense count."""
     score = min(20, signals["broetry"] * 28)
@@ -50,6 +57,7 @@ def score_signals(signals):
     score += min(12, signals["emoji_bullets"] * 2)
     score += min(8, signals["dashes"] * 3)
     score += min(12, signals["anaphora"] * 3)
+    score += min(8, signals["all_uppercase"] * 8)
 
     offenses = sum([
         signals["broetry"] >= 0.4,
@@ -58,6 +66,7 @@ def score_signals(signals):
         signals["emoji_bullets"] >= 2,
         signals["dashes"] > 0,
         signals["anaphora"] >= 2,
+        signals["all_uppercase"] >= 0.5
     ])
 
     return min(80, score), offenses
@@ -93,11 +102,29 @@ def console_safe(text):
 
 def main():
     # paste your own post between the triple quotes!
-    text = """Ever tried fitting everything into one bag… and it just turns into a mess?
-This one doesn’t.
-With 10+ smart pockets, dedicated space for your essentials, and a layout that actually makes sense—everything stays exactly where you need it.
-No digging. No stress
-"""
+    text = """
+            As programmers, we're trained to solve problems.
+
+Ironically, sometimes the hardest problem isn't in our code—it's in our own minds.
+
+A bug that feels impossible often turns out to be a missing bracket.
+
+An assignment that seems overwhelming becomes manageable once we break it into smaller tasks.
+
+A challenge that keeps us awake at night is often much smaller than we imagined.
+
+Programming has taught me an unexpected lesson:
+
+Don't panic before you understand the problem.
+
+Analyze it.
+Break it down.
+Solve one piece at a time.
+
+Because whether it's debugging code or dealing with life, the biggest obstacle is often the story we tell ourselves before we even begin.
+
+Sometimes, the problem isn't as big as it looks. 💻
+    """
 
     signals = {
         "broetry": broetry_ratio(text),
@@ -106,6 +133,7 @@ No digging. No stress
         "emoji_bullets": emoji_bullets(text),
         "dashes": excess_dashes(text),
         "anaphora": anaphora_hits(text),
+        "all_uppercase": whole_uppercase(text),
     }
     ai_signals = {
         "performative": performative_score(text, HF_TOKEN),
