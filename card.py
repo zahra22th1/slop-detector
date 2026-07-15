@@ -71,6 +71,8 @@ def _offense_list(sig):
         n=sig["dashes"]; out.append(("➖","Em-dash overload", f"{n} dash{'es' if n!=1 else ''} over the limit, a dead AI giveaway", BLUE,(34,50,70)))
     if sig.get("anaphora",0) >= 2:
         out.append(("🔁","Anaphora spam", f"{sig['anaphora']} lines reuse the same opener", PURPLE,(48,38,70)))
+    if sig.get("all_uppercase",0) >= 1:
+        out.append(("🔠","Excessive uppercase", f"{sig['all_uppercase']} words in ALL CAPS", AMBER,(70,34,52)))
     return out
 
 def _offenses(sig):

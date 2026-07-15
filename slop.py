@@ -103,27 +103,23 @@ def console_safe(text):
 def main():
     # paste your own post between the triple quotes!
     text = """
-            As programmers, we're trained to solve problems.
+😂 Tailwind CSS vs Traditional CSS
+With Tailwind:
 
-Ironically, sometimes the hardest problem isn't in our code—it's in our own minds.
+✅ Build fast
+✅ Utility-first approach
+✅ Less context switching
+✅ Consistent design system
+With traditional CSS:
 
-A bug that feels impossible often turns out to be a missing bracket.
+ 📚 Multiple files
+ 📚 Custom class names
+ 📚 Lots of scrolling and searching
+ 📚 "Where did I define this style?" moments
 
-An assignment that seems overwhelming becomes manageable once we break it into smaller tasks.
+Both have their place, but Tailwind has definitely changed the way modern developers build UIs.
 
-A challenge that keeps us awake at night is often much smaller than we imagined.
-
-Programming has taught me an unexpected lesson:
-
-Don't panic before you understand the problem.
-
-Analyze it.
-Break it down.
-Solve one piece at a time.
-
-Because whether it's debugging code or dealing with life, the biggest obstacle is often the story we tell ourselves before we even begin.
-
-Sometimes, the problem isn't as big as it looks. 💻
+What team are you on? 👍 Tailwind CSS ❤️ Traditional CSS
     """
 
     signals = {
