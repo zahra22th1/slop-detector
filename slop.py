@@ -1,6 +1,7 @@
-import os, requests
+import os, requests,re
 from dotenv import load_dotenv
 from card import make_card
+
 
 load_dotenv()
 HF_TOKEN = os.environ.get("HF_TOKEN")
@@ -44,9 +45,10 @@ def emoji_bullets(text):
 
 def whole_uppercase(text):
     """Fraction of words that are all-caps (shouting)."""
-    words = [w for w in text.split() if w.isalpha()]
+    words =[w for w in re.findall(r"\b[A-Za-z]+\b", text) if len(w) > 2]
     upper = sum(1 for w in words if w.isupper())
     return upper / len(words) if words else 0
+    
 
 
 def score_signals(signals):
@@ -143,8 +145,8 @@ What team are you on? 👍 Tailwind CSS ❤️ Traditional CSS
         # no tells flagged: lean on the AI alone, kept low
         score = round(vibe * 25)
     else:
-        # scale the whole blend up to use the full range
-        score = round(min(100, (rules + vibe * 40) * 1.4))
+        # scale the whole blend up to use the full range ---1.4 ضریب نهایی اولیه
+        score = round(min(100, (rules + vibe * 40) * 1.15))
 
     if score >= 70:   label = "Certified Artisanal Slop [slop]"
     elif score >= 50: label = "Peak LinkedIn Cringe [cringe]"
