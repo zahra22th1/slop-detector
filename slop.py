@@ -10,7 +10,7 @@ HF_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-
 def count_corporate_buzzwords(text):
     """How many LinkedIn buzzwords the post uses (humbled, synergy, ...)."""
     BUZZWORDS = ["humbled", "thrilled to announce", "synergy", "leverage",
-                 "thought leader", "grateful", "blessed", "move the needle"]
+                 "thought leader", "grateful", "blessed", "move the needle","honored","fortunate"]
     return sum(text.lower().count(b) for b in BUZZWORDS)
 
 def engagement_bait(text):
