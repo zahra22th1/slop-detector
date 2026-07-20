@@ -73,6 +73,8 @@ def _offense_list(sig):
         out.append(("🔁","Anaphora spam", f"{sig['anaphora']} lines reuse the same opener", PURPLE,(48,38,70)))
     if sig.get("all_uppercase",0) >= 1:
         out.append(("🔠","Excessive uppercase", f"{sig['all_uppercase']} words in ALL CAPS", AMBER,(70,34,52)))
+    if sig.get("hashtags",0) >= 4:
+        out.append(("#️⃣","Too many hashtags", f"{sig['hashtags']} hashtags used", WHITE,(70,34,52)))
     return out
 
 def _offenses(sig):

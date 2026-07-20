@@ -48,7 +48,11 @@ def whole_uppercase(text):
     words =[w for w in re.findall(r"\b[A-Za-z]+\b", text) if len(w) > 2]
     upper = sum(1 for w in words if w.isupper())
     return upper / len(words) if words else 0
-    
+
+def hashtags(text):
+    """Fraction of words that are hashtags ."""
+    words = re.findall(r"#\s*[A-Za-z0-9_]+\b", text)
+    return len(words) if  len(words)>3 else 0
 
 
 def score_signals(signals):
@@ -60,6 +64,7 @@ def score_signals(signals):
     score += min(8, signals["dashes"] * 3)
     score += min(12, signals["anaphora"] * 3)
     score += min(8, signals["all_uppercase"] * 8)
+    score += min(4, signals["hashtags"] * 1)
 
     offenses = sum([
         signals["broetry"] >= 0.4,
@@ -68,7 +73,8 @@ def score_signals(signals):
         signals["emoji_bullets"] >= 2,
         signals["dashes"] > 0,
         signals["anaphora"] >= 2,
-        signals["all_uppercase"] >= 0.5
+        signals["all_uppercase"] >= 0.5,
+        signals["hashtags"] >= 4
     ])
 
     return min(80, score), offenses
@@ -105,23 +111,17 @@ def console_safe(text):
 def main():
     # paste your own post between the triple quotes!
     text = """
-😂 Tailwind CSS vs Traditional CSS
-With Tailwind:
+Jetpack Compose Gummy Effect
 
-✅ Build fast
-✅ Utility-first approach
-✅ Less context switching
-✅ Consistent design system
-With traditional CSS:
+no image asset, no pre-made resource object for the bear itself :)
 
- 📚 Multiple files
- 📚 Custom class names
- 📚 Lots of scrolling and searching
- 📚 "Where did I define this style?" moments
+a fun and delicious project for the weekend...
 
-Both have their place, but Tailwind has definitely changed the way modern developers build UIs.
+I'm sharing this as a gist in the comments. have fun!
 
-What team are you on? 👍 Tailwind CSS ❤️ Traditional CSS
+Let's enjoy sharing.
+
+#JetpackCompose #AndroidDevelopment #AndroidProgramming #Kotlin #Androiid Android Developers
     """
 
     signals = {
@@ -132,6 +132,7 @@ What team are you on? 👍 Tailwind CSS ❤️ Traditional CSS
         "dashes": excess_dashes(text),
         "anaphora": anaphora_hits(text),
         "all_uppercase": whole_uppercase(text),
+        "hashtags": hashtags(text)
     }
     ai_signals = {
         "performative": performative_score(text, HF_TOKEN),
